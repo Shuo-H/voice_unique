@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+# raw corpus audio is NOT redistributable (LDC license) and must never be committed
+*.WAV
+*.wav
+*.sph
+timit*/
+*.tgz
