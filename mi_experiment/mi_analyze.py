@@ -40,6 +40,10 @@ def shash(s):
     return int.from_bytes(hashlib.blake2b(s.encode(), digest_size=4).digest(), "big")
 
 
+def sanitize_tag_for_filename(tag):
+    return str(tag).replace(":", "_")
+
+
 # ============================================================= STEP 3 worker ==
 def _step3_feature(payload):
     feat, vals, spk, S, nperm, seed0 = payload
@@ -129,7 +133,8 @@ def greedy_cumulative(cc, spk_cc, S_cc, tag, ex, suffix=None, save_fig=False, ou
         plt.xlabel("# features (greedy order, b=2/q=4)"); plt.ylabel("cumulative MI (bits)")
         plt.title(f"Cumulative usable speaker bits -- {tag} (S={S_cc}, N={len(cc)})")
         plt.legend(fontsize=8); plt.tight_layout()
-        figname = "cumulative_bits.png" if tag == "pooled" else f"cumulative_bits_{tag}.png"
+        safe_tag = sanitize_tag_for_filename(tag)
+        figname = "cumulative_bits.png" if tag == "pooled" else f"cumulative_bits_{safe_tag}.png"
         plt.savefig(os.path.join(FIGS, figname), dpi=120); plt.close()
     return cum_df, sat, stop_step, logS_cc
 
@@ -160,7 +165,8 @@ def run_cohort(wide, spk_str, tag, save_bins=False, make_feature_figs=False,
             rows_all.extend(rows)
             bins_all[feat] = binsrec
     mi_df = pd.DataFrame(rows_all).sort_values(["feature", "b"]).reset_index(drop=True)
-    suffix = "" if tag == "pooled" else f"_{tag}"
+    safe_tag = sanitize_tag_for_filename(tag)
+    suffix = "" if tag == "pooled" else f"_{safe_tag}"
     mi_df.to_csv(os.path.join(outdir, f"mi_by_feature_bit{suffix}.csv"), index=False)
     print(f"[step3] mi_by_feature_bit{suffix}.csv ({len(mi_df)} rows)", flush=True)
 

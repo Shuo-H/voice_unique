@@ -35,6 +35,10 @@ os.makedirs("figs", exist_ok=True)
 os.makedirs("artifacts", exist_ok=True)
 
 
+def sanitize_tag_for_filename(tag):
+    return str(tag).replace(":", "_")
+
+
 # ============================================================ load =============
 def load_long():
     df = pd.read_parquet("features.parquet")
@@ -231,7 +235,8 @@ def step4_deff(spk, feats, tag="pooled", bins=None):
     if bins is not None:
         for q in [2, 3]:
             curve = _cell_occupancy_curve(spk, feats, bins, q)
-            curve.to_csv(f"artifacts/occupancy_{tag}_q{q}.csv", index=False)
+            safe_tag = sanitize_tag_for_filename(tag)
+            curve.to_csv(f"artifacts/occupancy_{safe_tag}_q{q}.csv", index=False)
             # d_eff at full feature set, and the saturation subset size
             full = curve.iloc[-1]
             sat = curve[curve.saturated]
