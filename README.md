@@ -35,6 +35,9 @@ unmeasurable). All randomized steps use seed **1234**.
 ├── step5_pr.py                    Step 5: effective dimensionality (PR) pooled / within-sex / parent-residual
 ├── step6_classifier.py            Step 6: joint usable bits — held-out speaker-ID classifier lower bound
 ├── report_v2.py                   Step 7: collision cross-check + assembles report.md
+├── mi_core.py, jb_core.py,        vendored analysis cores (Miller–Madow MI, classifier
+│   collision.py                     bounds, collision formulae) — make this branch self-contained
+├── quick_test.sh                  end-to-end smoke test on a tiny subset (see "Quick test" below)
 │
 ├── bins.json                      equiprobable q-quantile bin edges (q ∈ {2,3,5,10})
 ├── coverage.csv                   per-feature fraction of utterances successfully computed
@@ -125,12 +128,41 @@ for **reading** results, not recomputing them.
    python report_v2.py         # Step 7 + report.md
    ```
 
-> **Heads-up for re-running here:** `step4_mi.py`, `step6_classifier.py`, and `report_v2.py` import
-> shared analysis modules (`mi_core`, `jb_core`, `collision`) from the *sibling* experiment folders of
-> the multi-experiment layout. Those steps therefore need the full `common-voice-experiments` checkout
-> (where `mi_experiment/`, `jointbits_experiment/`, `collision_experiment/` sit next to this folder),
-> not this flattened copy alone. `extract_v2.py`, `step3_fratios.py`, and `step5_pr.py` are
-> self-contained.
+`step4_mi.py`, `step6_classifier.py`, and `report_v2.py` reuse the shared analysis cores `mi_core`,
+`jb_core`, and `collision`. Those modules are **vendored into this folder** (`mi_core.py`, `jb_core.py`,
+`collision.py`), so every step runs from this branch alone — no need for the full multi-experiment
+checkout.
+
+## Quick test (subset smoke test)
+
+`quick_test.sh` runs the **entire pipeline end-to-end on a tiny subset** — it downloads one shard,
+carves out ~110 speakers, and runs `extract → step3 → step4 → step5 → step6 → report`, checking each
+step produces its output. It runs in an isolated temp dir, so the committed result files are never
+overwritten. Use it as a plumbing / regression check after changing the code (the subset is far too
+small for the numbers to be meaningful).
+
+```bash
+# needs the DSP deps (soundfile, librosa, parselmouth, sklearn, …)
+PYTHON=/path/to/env/python bash quick_test.sh
+
+KEEP=1 bash quick_test.sh          # keep the temp run dir to inspect outputs
+N_SPEAKERS=60 CAP=12 bash quick_test.sh   # even smaller / faster
+```
+
+Expected tail on success:
+
+```
+   [ok] extract          -> features.parquet
+   [ok] step3 F-ratios   -> fratios.csv
+   [ok] step4 MI         -> usable_bits.csv
+   [ok] step5 PR         -> pr_effective_dim.csv
+   [ok] step6 classifier -> classifiers.csv
+   [ok] step7 report     -> report.md
+[..:..:..] ALL STEPS PASSED
+```
+
+First run downloads the 493 MB shard into `../cv_cache/` (cached for reuse); after that the whole
+test takes a couple of minutes (extraction dominates).
 
 ## Headline findings
 

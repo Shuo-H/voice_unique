@@ -26,7 +26,7 @@ SEED = 1234
 MIN_CLIPS = 5
 CAP = 30
 N_WORKERS = 16
-CACHE = "../cv_cache/en"
+CACHE = os.environ.get("CV_CACHE", "../cv_cache/en")   # override for the quick test
 OUT_FEATS = F.FEATURES_40 + F.AUX        # 40 canonical + HNR aux (VTLE excluded)
 
 
