@@ -1,136 +1,149 @@
-# voice_unique
+# Is the Human Voice Unique? — Three Empirical Probes
 
-Empirical re-examination of the claim that the **human voice is unique**, on the TIMIT
-corpus. The repository contains the analysis code, the derived per-utterance feature
-tables, and all result files (tables, figures, reports) supporting the findings.
+This repo empirically tests the central claim of **Singh & Raj, _"Human Voice is Unique"_**
+(CMU Center for Voice Intelligence and Security; [arXiv:2506.18182](https://arxiv.org/abs/2506.18182)).
+That paper argues that a voice can be reduced to ~41
+independent, quantizable acoustic features, and that under those assumptions the chance of
+two people sharing a voice in a 10-billion-person world is "one in a few thousand to one in
+a septillion."
 
-The study revisits Singh & Raj, *Human Voice is Unique*, which assumes 41 acoustic features
-are statistically independent and each carries `q` usable bins, giving `m = q^41` voice
-"cells." We instead **measure** what is actually computable, how many bins each feature can
-support, how many effective dimensions survive feature correlations, and how much speaker
-information the features jointly carry — and we recompute the paper's collision metrics with
-those measured quantities.
-
-Everything is deterministic given a single fixed seed (**1234**): feature extraction, the
-cross-validation folds, all bootstraps, all permutation nulls, and the classifier
-`random_state`. An independent re-run reproduces the numbers bit-for-bit.
-
-## Data availability
-
-TIMIT (LDC93S1) audio is **not** redistributable and is **not** included here. Only the
-**derived feature tables** computed from it are deposited (`outputs/features.parquet` and
-`outputs/_features_wide.parquet`). To regenerate the feature tables from scratch you need
-your own licensed copy of TIMIT (see Reproduction). The `.gitignore` blocks raw audio
-(`*.WAV`, `*.sph`, `*.tgz`, `timit*/`) from ever being committed.
-
-## Repository layout
+We don't take that on faith. Three independent experiments measure the real features on real
+crowd-sourced speech and ask, from three different angles, **how much speaker identity a voice
+actually carries** — and where the paper's astronomical numbers come from.
 
 ```
-voice_unique/
-  code/                         analysis code (runnable, env-configurable, seed 1234)
-    vu_extract.py               STEP 1: per-utterance feature extraction from TIMIT audio
-    vu_analyze.py               F-ratios, effective dimensionality, collision metrics
-    vu_quant.py                 quantization + Miller-Madow mutual information
-    vu_jointbits.py             held-out speaker ID + Fano lower bound on joint bits
-    run_experiment.py           orchestrator (extract -> analyze)
-  outputs/                      derived tables + all result files (single VU_OUT folder)
-    features.parquet            long-format per-utterance features (speaker_id,sex,utt_id,feature,value)
-    _features_wide.parquet      one-row-per-utterance wide version
-    coverage.csv                per-feature fraction of utterances successfully computed
-    bins.json                   q-quantile bin edges per feature
-    figs/                       all figures (84 PNGs)
-    ... result CSVs + reports (see "File manifest" below) ...
-  requirements.txt              pinned dependencies (Python 3.10)
+common_voice_experiments/
+├── README.md                     ← you are here
+│
+├── collision_experiment/         ← Experiment 1: replicate & stress-test the collision math
+├── mi_experiment/                ← Experiment 2: mutual information (bits) per feature
+├── jointbits_experiment/         ← Experiment 3: classifier lower bound on joint bits (+ TIMIT)
+│
+└── cv_cache/                     ← SHARED: cached Common Voice 17 parquet shards
+                                    (~6.4 GB, git-ignored — created on first run)
 ```
 
-## The three experiments
+## What the three experiments have in common
 
-All run on TIMIT (630 speakers x 10 utterances = 6300 single-session utterances, 16 kHz).
-40 of the paper's ~41 features were measurable; VFI and Nasality were not (no single-channel
-estimator) and are recorded as NOT MEASURED — never imputed.
+They are deliberately built on one shared foundation so the results are comparable:
 
-**1. Feature coverage, F-ratios, effective dimensionality, collisions** (`vu_extract.py`,
-`vu_analyze.py` -> `outputs/report.md`). Nominal `k = 40` features collapse to an effective
-dimensionality of **d_eff ≈ 5.4 [5.2, 5.7]** (pooled Pearson participation ratio; ~11-12
-within each sex). Plugging the paper's own assumption (independence, k=40, q=10) reproduces
-its result (population-match probability ~1e-21 at n=1e10), but with measured d_eff the
-population match becomes effectively certain. A direct count finds **5 colliding speaker
-pairs at q=2** versus ~0 predicted under independence — falsifying the independence
-assumption.
+| Shared element | Detail |
+|---|---|
+| **Paper under test** | Singh & Raj, _Human Voice is Unique_ — same 41-feature construct, same collision framework |
+| **Data** | Common Voice 17, English, `validated` split. Mozilla emptied the official HF repo (Oct 2025), so all three stream the public **`fixie-ai/common_voice_17_0`** parquet mirror, cached once in `cv_cache/`. MP3 decoded via libsndfile → **16 kHz mono**. |
+| **Speaker label** | `client_id` is treated as one speaker (stated assumption / limitation everywhere). |
+| **Feature set** | The paper's canonical 41 acoustic features (F0, formants F1–F5 + bandwidths, jitter/shimmer, spectral shape, CPP/HNR, glottal-source family, …). |
+| **Honesty rule** | Features are **never imputed or faked**. Anything not computable (the glottal/inverse-filter family, VOT — needs forced alignment) is logged as **NOT MEASURED** with 0 coverage, not approximated. This is why each experiment measures a slightly different subset (40 / 28 / 28). |
+| **Reproducibility** | Fixed seed **1234** for every shuffle, bootstrap, fold, and subsample. |
 
-**2. Quantization + bias-corrected mutual information** (`vu_quant.py` ->
-`outputs/report-quant.md`). Per-feature usable speaker bits via MI with Miller-Madow
-correction and a 200x permutation null; headline is always the bias-corrected
-`I_corrected = max(0, I_mm - I_null_mean)`. F0 is most informative at **1.44 corrected bits**
-(usable depth b*=3). F-ratio and corrected bits agree strongly (Spearman **rho = 0.973**),
-with SQ the one notable divergence. A binned greedy join is reported as a censored sanity
-check (sample-limited).
+Each experiment folder also follows the **same internal layout**:
 
-**3. Fano lower bound on joint speaker bits** (`vu_jointbits.py` ->
-`outputs/report-jointbits-timit.md`). Held-out 629-way speaker identification under
-utterance-disjoint 5-fold CV converts identification error into a **lower bound** on joint
-information via Fano's inequality. Headline (the larger of the two required classifiers,
-logreg vs MLP): **Fano I_lower = 5.09 bits** (LOWER BOUND, classifier-dependent); a
-shrinkage-LDA reference reaches 6.26 bits, and the cross-entropy bound is 6.76 bits — all
-floors, since a stronger model can only raise them. The classifier-driven greedy reaches
-**6.32 bits (95% of max by 25 features)**; the binned plug-in curve peaks at only 1.34 bits
-before censoring, demonstrating why binned MI must not be read as saturation. At ~5-6 bits
-the measurement is classifier-limited, not yet sample-ceilinged (ceiling log2(629) = 9.30
-bits).
-
-A recurring, honestly-stated caveat: TIMIT is **single-session**, so within-speaker
-variability is understated and every separability/bits number here is an **optimistic upper
-bound**; cross-session data would lower them.
-
-## Reproduction
-
-```bash
-python -m venv .venv && source .venv/bin/activate     # Python 3.10
-pip install -r requirements.txt
+```
+<experiment>/
+├── *features*.py     feature/DSP definitions          (what to measure)
+├── *extract*.py      Step 1: extraction → parquet      (measure it)
+├── *core*.py         the analysis methods
+├── *analyze*.py      analysis driver                   (compute results)
+├── *report*.py       assembles the human-readable report
+├── run_*.py          one-command end-to-end runner
+├── features.parquet  per-utterance features (long format)
+├── figs/             plots
+├── artifacts/, *.csv, *.json   intermediate results
+├── report*.md        ← the writeup (read this for full detail)
+└── prompt_and_model_log.md     provenance / build log
 ```
 
-Point `VU_OUT` at the `outputs/` folder (it holds `features.parquet` and is where results are
-written). The analysis scripts also auto-locate `features.parquet` next to themselves or in
-the parent folder if `VU_OUT` is unset.
+Run any one end-to-end with its driver, e.g. `python mi_experiment/run_mi.py`.
 
-```bash
-export VU_OUT="$(pwd)/outputs"
+---
 
-# Re-derive the feature tables from raw audio (needs a licensed TIMIT copy):
-export VU_TIMIT_ROOT="/path/to/timit_LDC93S1/timit/TIMIT"   # dir containing TRAIN/ and TEST/
-python code/vu_extract.py            # writes features.parquet, _features_wide.parquet, coverage.csv
+## Experiment 1 — `collision_experiment/`  ·  Replicate the collision math
 
-# Re-run the analyses from the deposited feature tables (no audio needed):
-python code/vu_analyze.py            # experiment 1
-python code/vu_quant.py              # experiment 2  (needs fratios.csv from experiment 1)
-python code/vu_jointbits.py          # experiment 3  (~30 min: held-out greedy speaker ID)
-```
+**What it does.** A direct replication and stress-test of the paper's own collision-probability
+formulae. It measures the paper's **two load-bearing assumptions** on 1,755 speakers / 18,861
+multi-session clips: (a) feature *independence*, via the effective dimensionality `d_eff`
+(participation ratio); and (b) per-feature *resolution* `q`, via how often a speaker's repeated
+clips stay inside the same quantile bin (`q_max`). It then plugs the **measured** `d_eff` and
+`q_max` back into the paper's exact equations. (`collision.py` reproduces the paper's Table 1 at
+d=41 exactly, so the engine is validated.)
 
-On Windows (cmd): use `set VU_OUT=...\outputs` and `python code\vu_jointbits.py`.
+**Core conclusion.** Both assumptions fail on realistic audio:
+- Features are **far from independent** — `d_eff ≈ 12`, not 41 (and below the paper's own floor of 27).
+- Usable resolution is **`q ≤ 2`, not 5–10** — multi-session variability pushes speakers across bins.
+- Feeding the measured values into the paper's formulae flips every metric from "astronomically
+  unique" to **collisions certain** at n=10¹⁰. The one-in-a-septillion figure is an **artifact of the
+  independence + high-q assumptions**.
+- **Honest counterpoint:** at *sample* scale the 1,736 real speakers are perfectly separable
+  (0 collisions at q=2,3). Voice is genuinely highly distinctive — what's refuted is the *specific*
+  astronomical probability, not the qualitative claim. A population-scale verdict needs far more
+  speakers and cleaner audio.
 
-## File manifest
+→ Full detail: [`collision_experiment/report.md`](collision_experiment/report.md)
 
-| file (in `outputs/`) | experiment | contents |
-|---|---|---|
-| `features.parquet`, `_features_wide.parquet` | (input) | derived per-utterance feature tables |
-| `coverage.csv`, `bins.json` | (input) | per-feature coverage; q-quantile bin edges |
-| `report.md` | 1 | coverage, F-ratios, d_eff, collision metrics |
-| `fratios.csv` | 1 | within/between variance, F-ratio, ANOVA, q_max |
-| `deff.csv`, `deff_occupancy.csv` | 1 | effective-dimensionality estimates + CIs |
-| `collisions.csv`, `direct_collisions.csv` | 1 | collision metrics, assumed vs measured; direct count |
-| `report-quant.md` | 2 | usable bits, F-ratio vs bits, joint-bits |
-| `mi_per_feature_full.csv`, `usable_bits.csv` | 2 | MI grid; usable bit depth per feature |
-| `fratio_vs_bits.csv`, `joint_greedy.csv` | 2 | variance-vs-information comparison; binned greedy |
-| `report-jointbits-timit.md` | 3 | Fano/cross-entropy lower bounds |
-| `jointbits_classifiers_timit.csv` | 3 | held-out accuracy, log-loss, Fano + xent bounds + CIs |
-| `jointbits_greedy_timit.csv` | 3 | classifier-driven cumulative I_lower curve |
-| `binned_greedy_censored_timit.csv` | 3 | censored binned-MI sanity check |
-| `figs/` | 1-3 | distributions, scree, MI curves, joint-bits and censored curves |
+## Experiment 2 — `mi_experiment/`  ·  How many *bits* of identity per feature
 
-## Notes
+**What it does.** Reframes "uniqueness" information-theoretically: the bias-corrected **mutual
+information (in bits)** between speaker identity and each feature's quantization bin, on a
+balanced design (1,599 speakers × exactly 12 clips each). Bias is handled with Miller–Madow
+**plus** a 200× permutation null, so the headline bits are conservative and significance-tested.
+It reports per-feature usable bit-depth, a greedy **joint/cumulative** bits curve, and a
+size-matched cohort analysis.
 
-- The raw TIMIT corpus requires an LDC license; this repo deposits only derived features and
-  results, consistent with that license.
-- Reference: R. Singh and B. Raj, *Human Voice is Unique*, Center for Voice Intelligence and
-  Security, Carnegie Mellon University.
-- Seed = 1234 everywhere.
+**Core conclusion.**
+- Every measured feature carries significant speaker information (perm-p < 0.005). The best single
+  feature is **F0 at 0.887 bits**, then RMS (0.732), CPP (0.679) — against a `log2(1599) = 10.64`-bit
+  ceiling, so F0 alone ≈ 8% of the maximum.
+- Joint information **saturates at ~1.12 bits using just 2 features**, then declines — but this peak
+  is **sample-capped** (the joint permutation null rises as cells outrun the data), an *estimate* of
+  usable joint bits, not a population constant.
+- **Homogeneous cohorts carry fewer usable bits than size-matched random controls** (sex −24%,
+  US-accent −8%) — a de-confounded confirmation of the paper's "low effective dimensionality among
+  acoustically similar speakers."
+
+→ Full detail: [`mi_experiment/report-cv-quant.md`](mi_experiment/report-cv-quant.md)
+
+## Experiment 3 — `jointbits_experiment/`  ·  Classifier lower bound + TIMIT contrast
+
+**What it does.** Where Exp. 2 bins each feature, this puts a **held-out speaker-ID classifier**
+(logreg / MLP / shrinkage-LDA, utterance-disjoint 5-fold CV) on the joint feature vector and turns
+its accuracy and log-loss into **Fano + cross-entropy lower bounds** on joint usable speaker
+information. Crucially, it runs the **identical pipeline on TIMIT** (single-session studio audio) to
+ask whether Common Voice's multi-session MP3 condition actually costs identity information.
+
+**Core conclusion.**
+- Joint usable speaker information is **≥ 6.92 bits** (cross-entropy bound, strongest classifier;
+  ultra-conservative Fano floor 4.88 bits). Every number is a **lower bound** — a stronger classifier
+  (e.g. an x-vector/ECAPA embedding net) or more data can only raise it.
+- **Key cross-corpus result:** at matched S=630 and the same 28 features, multi-session MP3 Common
+  Voice and single-session studio **TIMIT are statistically tied** on speaker-ID accuracy
+  (≈0.626 vs 0.627) and within **~0.3 bits**. The large single-vs-multi-session penalty one would
+  expect a priori **does not appear** — the session-stable low-frequency features (F0, formants,
+  spectral shape, CPP/HNR) absorb most of the channel/session variability.
+
+→ Full detail: [`jointbits_experiment/report-jointbits-cv.md`](jointbits_experiment/report-jointbits-cv.md)
+
+---
+
+## The three results together
+
+The paper says: *voice = many independent high-resolution features ⇒ astronomically unique.*
+The experiments converge on a more nuanced picture:
+
+1. **The astronomical number is an artifact** of the independence + high-q assumptions; measured
+   features are correlated (`d_eff ≈ 12`) and low-resolution (`q ≤ 2`) on real audio (Exp. 1).
+2. **But voice genuinely carries strong identity information** — real speakers are perfectly
+   separable at sample scale (Exp. 1), individual features carry significant bits (Exp. 2), and a
+   simple linear classifier already extracts ≥6.9 bits (Exp. 3).
+3. **The discriminating information is robust**, sitting in session-stable low-frequency features —
+   so much so that lossy multi-session crowd audio nearly matches clean studio audio (Exp. 3).
+
+Shared caveats across all three: MP3@16 kHz biases the absolute numbers low (only *contrasts* are
+robust), `client_id = speaker` is assumed, the glottal-source feature family is unmeasured, and
+sample size (~1.6k speakers) means population-scale claims are extrapolations, not direct counts.
+
+---
+
+## Reference
+
+Rita Singh and Bhiksha Raj. *Human Voice is Unique.* Center for Voice Intelligence and Security,
+Carnegie Mellon University, 2025. arXiv:2506.18182. <https://arxiv.org/abs/2506.18182>
