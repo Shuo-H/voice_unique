@@ -1,0 +1,52 @@
+{
+  "n_features": 39,
+  "n_complete_speakers": 10551,
+  "qmax_pooled_dist": {
+    "1": 17,
+    "2": 21,
+    "3": 1
+  },
+  "n_qmax_ge3": 1,
+  "n_qmax_eq2": 21,
+  "n_qmax_eq1": 17,
+  "n_F_gt1": 26,
+  "n_F_gt2": 9,
+  "n_within_exceeds_pooled": 1,
+  "top5_pooled": [
+    {
+      "feature": "F0",
+      "F_ratio_pooled": 3.4675783826244815,
+      "F_ratio_male": 1.446383596919256,
+      "F_ratio_female": 2.1827832755806216,
+      "q_max_pooled": 3
+    },
+    {
+      "feature": "RMS",
+      "F_ratio_pooled": 3.2815009495638585,
+      "F_ratio_male": 2.6634040212995163,
+      "F_ratio_female": 3.302254172009858,
+      "q_max_pooled": 2
+    },
+    {
+      "feature": "CPP",
+      "F_ratio_pooled": 2.6851717401708193,
+      "F_ratio_male": 2.105463539360372,
+      "F_ratio_female": 1.7819028942656354,
+      "q_max_pooled": 2
+    },
+    {
+      "feature": "AlphaRatio",
+      "F_ratio_pooled": 2.376706298552374,
+      "F_ratio_male": 2.3882354426133894,
+      "F_ratio_female": 1.939788833624579,
+      "q_max_pooled": 2
+    },
+    {
+      "feature": "dCPP",
+      "F_ratio_pooled": 2.350373882651959,
+      "F_ratio_male": 1.9766656395676916,
+      "F_ratio_female": 1.9301360621926968,
+      "q_max_pooled": 2
+    }
+  ]
+}

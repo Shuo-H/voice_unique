@@ -14,3 +14,7 @@ env/
 
 # Large local dataset cache
 cv_cache/
+
+# v2 per-utterance feature table — 101 MB, exceeds GitHub's 100 MB limit.
+# Regenerate locally with `python cv17_v2_experiment/extract_v2.py`.
+cv17_v2_experiment/features.parquet

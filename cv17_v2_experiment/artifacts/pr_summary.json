@@ -1,0 +1,42 @@
+{
+  "k_features": 39,
+  "n_speakers": 10551,
+  "PR_pooled": 12.952727450485437,
+  "PR_within_sex_mean": 13.329464623741426,
+  "PR_parent_residual": 13.568657644791356,
+  "rise_pooled_to_within_sex": 0.37673717325598943,
+  "rise_pooled_to_residual": 0.6159301943059194,
+  "mean_parent_R2": 0.05433329341727506,
+  "top_parent_R2": [
+    {
+      "feature": "F0",
+      "display": "F0",
+      "parent_R2": 0.32840863987673385
+    },
+    {
+      "feature": "IHI",
+      "display": "IHI",
+      "parent_R2": 0.26711947779115897
+    },
+    {
+      "feature": "GCT",
+      "display": "GCT",
+      "parent_R2": 0.20559165491788267
+    },
+    {
+      "feature": "CPP",
+      "display": "CPP",
+      "parent_R2": 0.19012286831133607
+    },
+    {
+      "feature": "dCPP",
+      "display": "dCPP",
+      "parent_R2": 0.13179930901330905
+    },
+    {
+      "feature": "shimmer",
+      "display": "shimmer",
+      "parent_R2": 0.10836333423965572
+    }
+  ]
+}
