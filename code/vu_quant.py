@@ -408,7 +408,7 @@ def write_report(tab, cmp_df, rho, rho_p, thr, sdf, joint_N, joint_nspk, full, m
              f"Seed={SEED}.\n")
 
     rep = "\n".join(L)
-    with open(os.path.join(OUT, "report-quant.md"), "w") as fh:
+    with open(os.path.join(OUT, "report-quant.md"), "w", encoding="utf-8") as fh:
         fh.write(rep)
     return rep
 

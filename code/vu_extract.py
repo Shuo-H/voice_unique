@@ -106,7 +106,7 @@ def read_phn(path):
     seg = []
     if not os.path.exists(path):
         return seg
-    with open(path) as fh:
+    with open(path, encoding="utf-8") as fh:
         for ln in fh:
             p = ln.split()
             if len(p) >= 3:
@@ -528,6 +528,13 @@ def main():
     out_dir = OUT_DIR
     os.makedirs(out_dir, exist_ok=True)
     files = list_wavs()
+    if not files:
+        raise SystemExit(
+            f"[extract] ABORT: no .WAV files found under VU_TIMIT_ROOT={TIMIT_ROOT!r}.\n"
+            f"  Point VU_TIMIT_ROOT at the directory that DIRECTLY contains TRAIN/ and TEST/\n"
+            f"  (e.g. .../timit/TIMIT), and make sure the TIMIT audio is actually unpacked\n"
+            f"  there (if you only have timit_LDC93S1.tgz, extract it first:\n"
+            f"    tar -xzf timit_LDC93S1.tgz   ->  creates timit/TIMIT/{{TRAIN,TEST}}/...).")
     print(f"[extract] {len(files)} utterances; seed={SEED}", flush=True)
 
     rows = []

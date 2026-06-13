@@ -40,8 +40,12 @@ def main():
     vu_analyze.main()
 
     rep = os.path.join(out, "report.md")
+    try:                                   # make Windows consoles (cp1252) UTF-8 safe
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     print("\n" + "=" * 80 + "\nREPORT (" + rep + ")\n" + "=" * 80)
-    with open(rep) as fh:
+    with open(rep, encoding="utf-8") as fh:
         print(fh.read())
 
 if __name__ == "__main__":

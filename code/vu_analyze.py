@@ -78,7 +78,7 @@ def step2_bins(M, measured):
         plt.xlabel(f); plt.ylabel("count"); plt.tight_layout()
         plt.savefig(os.path.join(FIGS, f"dist_{f}.png"), dpi=90)
         plt.close()
-    with open(os.path.join(OUT, "bins.json"), "w") as fh:
+    with open(os.path.join(OUT, "bins.json"), "w", encoding="utf-8") as fh:
         json.dump(bins, fh, indent=2)
     return bins
 
@@ -555,7 +555,7 @@ def write_report(cov, fratios, deff_df, occ_df, col, dc, measured, keep,
              f"(dist_*.png, scree_pearson.png), and this report.md. Seed={SEED}.\n")
 
     rep = "\n".join(L)
-    with open(os.path.join(OUT, "report.md"), "w") as fh:
+    with open(os.path.join(OUT, "report.md"), "w", encoding="utf-8") as fh:
         fh.write(rep)
 
 if __name__ == "__main__":

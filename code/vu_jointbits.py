@@ -474,7 +474,7 @@ def write_report(results, feats, dropped_feats, n_before, n_after, S,
              f"figs/binned_greedy_censored_timit.png, report-jointbits-timit.md. Seed={SEED}.\n")
 
     rep = "\n".join(L)
-    with open(os.path.join(OUT, "report-jointbits-timit.md"), "w") as fh:
+    with open(os.path.join(OUT, "report-jointbits-timit.md"), "w", encoding="utf-8") as fh:
         fh.write(rep)
 
 if __name__ == "__main__":
