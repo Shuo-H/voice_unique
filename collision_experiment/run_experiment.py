@@ -35,11 +35,22 @@ REPO = "fixie-ai/common_voice_17_0"
 CACHE = "../cv_cache/en"
 
 
+def _sanitize_ssl_cert_env():
+    """Drop stale certificate env vars that make httpx fail before any request."""
+    for name in ("SSL_CERT_FILE", "REQUESTS_CA_BUNDLE", "CURL_CA_BUNDLE"):
+        value = os.environ.get(name)
+        if value and not os.path.exists(value):
+            print(f"[env] ignoring {name}={value!r} because the file does not exist",
+                  file=sys.stderr, flush=True)
+            os.environ.pop(name, None)
+
+
 def ensure_shards(n_shards):
     os.makedirs(CACHE, exist_ok=True)
     have = sorted(glob.glob(f"{CACHE}/validated-*.parquet"))
     if len(have) >= n_shards:
         print(f"[data] {len(have)} shards already cached"); return
+    _sanitize_ssl_cert_env()
     from huggingface_hub import hf_hub_download
     for i in range(n_shards):
         fn = f"en/validated-{i:05d}-of-00138.parquet"
