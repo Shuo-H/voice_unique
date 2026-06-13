@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Logs (provenance only; regenerated every run)
+run.log
+full_run.log
+nohup.out
+
+# Smoke-test scratch workspaces
+features_smoke/
+results_smoke/
+report_SMOKE.md
+
+# Feature cache: ignore the resumable shards, tmp files, and sentinel,
+# but DO commit the merged matrix features/features_per_utt.parquet.
+# NB: we ignore the *contents* of features/ selectively (not the whole dir),
+# because git cannot re-include a file beneath a fully-ignored directory.
+features/shards/
+features/*.tmp
+features/_EXTRACTION_DONE
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Claude Code local config
+.claude/

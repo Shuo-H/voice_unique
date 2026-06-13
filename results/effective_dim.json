@@ -1,0 +1,85 @@
+{
+  "pr_features_used": [
+    "F0",
+    "jitter",
+    "shimmer",
+    "GCT",
+    "CQ",
+    "MFDR",
+    "SQ",
+    "NAQ",
+    "SHR",
+    "IHI",
+    "VFP",
+    "semitone_SD_F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "Nasality",
+    "spectral_skewness",
+    "spectral_kurtosis",
+    "spectral_entropy",
+    "spectral_rolloff",
+    "spectral_flux",
+    "alpha_ratio",
+    "LHR",
+    "SPI",
+    "GNE",
+    "SSPF",
+    "CPP",
+    "dCPP",
+    "RMS",
+    "AMD",
+    "speech_rate",
+    "VOT",
+    "BGD"
+  ],
+  "n_pr_features": 40,
+  "pooled": {
+    "PR": 9.24201693917524,
+    "CI95": [
+      8.757347030357051,
+      9.541537250673198
+    ],
+    "n_speakers": 630
+  },
+  "within_sex": {
+    "male": {
+      "PR": 11.275003500341978,
+      "CI95": [
+        10.393809921268883,
+        11.672284089185208
+      ],
+      "n": 438
+    },
+    "female": {
+      "PR": 11.869351506389442,
+      "CI95": [
+        10.505404351900825,
+        12.109278915218734
+      ],
+      "n": 192
+    },
+    "mean": 11.57217750336571
+  },
+  "parent_residual": {
+    "PR": 12.669672359786377,
+    "CI95": [
+      11.860089618975762,
+      12.988658793762486
+    ],
+    "parents_used": [
+      "sex",
+      "age",
+      "height"
+    ],
+    "n_speakers": 629
+  }
+}

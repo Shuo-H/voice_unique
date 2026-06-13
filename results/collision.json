@@ -1,0 +1,19 @@
+{
+  "operating_q_max": 2,
+  "pooled_PR": {
+    "q_max": 2,
+    "PR": 9.24201693917524,
+    "log10_N_cells": 2.782124319126363,
+    "P_E_expected_pairs": 8.257444914870728e+16,
+    "P_M_any_collision": 1.0,
+    "P_B_per_pair": 0.0016514889829741454
+  },
+  "parent_residual_PR": {
+    "q_max": 2,
+    "PR": 12.669672359786377,
+    "log10_N_cells": 3.8139514155305556,
+    "P_E_expected_pairs": 7673943349063003.0,
+    "P_M_any_collision": 1.0,
+    "P_B_per_pair": 0.00015347886698126006
+  }
+}
