@@ -16,3 +16,4 @@ numpy==2.2.6
 scipy==1.15.3
 pandas==2.3.3
 pyarrow==24.0.0             # parquet read/write for the feature cache
+huggingface_hub==1.19.0     # only for fetch_features.py (download/skip extraction); CLI is `hf`

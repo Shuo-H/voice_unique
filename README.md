@@ -55,7 +55,45 @@ Delete the scratch dir anytime: `rm -rf smoke/`.
 
 ---
 
-## 3. Full run — step by step
+## 3. Skip extraction — download the feature cache from Hugging Face
+
+The only expensive step is extraction (decoding 6,300 audio files, ~80 min). Its
+output is a single ~1.8 MB file, `features/features_per_utt.parquet`. If you just
+want to reproduce the **downstream statistics** (sections 1–7), you can download
+that cache instead of recomputing it — **and you don't even need the TIMIT corpus**,
+because `results/speaker_meta.csv` is already committed.
+
+```bash
+pip install -r requirements.txt          # includes huggingface_hub
+python fetch_features.py                 # -> features/features_per_utt.parquet (+ sentinel)
+python analyze.py                        # report sections 1-5,7
+python classify.py                       # report section 6
+```
+`fetch_features.py` pulls from the dataset repo `Shuo-H/timit-40feature-battery`
+(override with `HF_FEATURES_REPO=<owner>/<dataset>`). Because `extract_all.py`
+no-ops when `features/features_per_utt.parquet` already exists, the downloaded
+cache also makes a full `bash`-driven run skip extraction automatically.
+
+### (Maintainer) how the cache was published to Hugging Face
+One-time, by the repo owner, after a full extraction run:
+```bash
+# 1. get a WRITE token at https://huggingface.co/settings/tokens
+hf auth login                            # paste the write token
+
+# 2. create the dataset repo + upload the parquet (creates repo if absent)
+hf upload Shuo-H/timit-40feature-battery \
+    features/features_per_utt.parquet features_per_utt.parquet \
+    --repo-type=dataset
+```
+That publishes `features_per_utt.parquet` to
+`https://huggingface.co/datasets/Shuo-H/timit-40feature-battery`, which is exactly
+what `fetch_features.py` downloads. (The parquet is self-describing: it carries
+`utt_id, speaker, sex, split, dialect, utt` columns plus the 40 features and decode
+diagnostics, so consumers need nothing else to run the analysis.)
+
+---
+
+## 4. Full run — step by step
 
 Every command goes **through the conda env, applied per command** (don't rely on
 `conda activate` persisting across separate shells). On the validated Windows
@@ -116,7 +154,7 @@ Expected: `rows 6300 … decode_fail_sum 0 … unexpected_all_nan []`.
 
 ---
 
-## 4. The 40 features (30 measured, 10 not-attempted)
+## 5. The 40 features (30 measured, 10 not-attempted)
 
 Measured per utterance, then aggregated to per-speaker mean + within-speaker
 variance. **VTLE is deliberately excluded** and is not a feature.
@@ -134,7 +172,7 @@ The not-attempted set is declared in `feat_lib.NOT_ATTEMPTED`.
 
 ---
 
-## 5. Repo map
+## 6. Repo map
 
 ```
 PROMPT_TIMIT_experiments_claudecode.md   the full experiment specification
@@ -143,6 +181,7 @@ build_manifest.py      walk corpus            -> results/manifest.csv
 build_spkrinfo.py      parse SPKRINFO.TXT     -> results/speaker_meta.csv
 check_env.py           package/version guard
 extract_all.py         sharded resumable extraction -> features/features_per_utt.parquet
+fetch_features.py      download the feature cache from Hugging Face (skip extraction)
 analyze.py             report sections 1-5,7  -> results/*.csv, results/*.json
 classify.py            report section 6       -> results/classifier.json
 verify.py              post-run sanity checks (rows / decode fails / NaN columns)
@@ -158,7 +197,7 @@ run.log                run/provenance log                        (git-ignored)
 
 ---
 
-## 6. Conventions & reproducibility
+## 7. Conventions & reproducibility
 
 - **Single fixed RNG seed `1234`** everywhere (extraction order, permutation
   nulls, bootstraps, CV folds, sklearn `random_state`).
@@ -175,7 +214,7 @@ run.log                run/provenance log                        (git-ignored)
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 | Symptom | Fix |
 |---|---|
@@ -186,3 +225,5 @@ run.log                run/provenance log                        (git-ignored)
 | `extract_all.py` returns instantly | `features/features_per_utt.parquet` already exists; delete it (or `features/`) to force a fresh extraction. |
 | sklearn `FutureWarning: multi_class …` | Harmless (slated for removal in sklearn 1.8); `classify.py` still produces correct results. |
 | `n_splits=5 … least populated class` (smoke only) | Subset too small — raise `SMOKE_N_PER_SEX`. |
+| `fetch_features.py` → 401 / `RepositoryNotFound` | Private/renamed dataset — `hf auth login`, or point at the right repo: `HF_FEATURES_REPO=<owner>/<dataset> python fetch_features.py`. |
+| `hf: command not found` | `pip install -r requirements.txt` (ships `huggingface_hub`); the CLI is `hf` (old `huggingface-cli` is deprecated). |
