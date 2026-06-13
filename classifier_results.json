@@ -1,0 +1,152 @@
+{
+  "seed": 1234,
+  "S": 5095,
+  "N": 50950,
+  "clips_per_speaker": 10,
+  "ceiling_bits": 12.314866431053176,
+  "n_features_kept": 38,
+  "kept_features": [
+    "F0",
+    "jitter",
+    "shimmer",
+    "GCT",
+    "CQ",
+    "MFDR",
+    "SQ",
+    "NAQ",
+    "SHR",
+    "IHI",
+    "VFI",
+    "SemitoneSDF0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "Nasality",
+    "SpectralSkewness",
+    "SpectralKurtosis",
+    "SpectralEntropy",
+    "SpectralRolloff",
+    "SpectralFlux",
+    "AlphaRatio",
+    "LHR",
+    "SPI",
+    "GNE",
+    "CPP",
+    "dCPP",
+    "RMS",
+    "AMD",
+    "SpeechRate",
+    "BGD"
+  ],
+  "dropped_features": [
+    "SSPF"
+  ],
+  "n_utts_dropped_listwise": 344,
+  "strongest": "logreg",
+  "capacity_inversion": true,
+  "fano_lower_best": 5.7487595210713245,
+  "xent_lower_best": 8.45112615076293,
+  "classifiers": {
+    "logreg": {
+      "S": 5095,
+      "N": 50950,
+      "chance": 0.00019627085377821394,
+      "H_bits": 12.314866431053176,
+      "top1_acc": 0.54747791952895,
+      "logloss_bits": 3.863740280290246,
+      "logloss_nats": 2.6781406816990767,
+      "fold_acc_mean": 0.54747791952895,
+      "fold_acc_std": 0.004636480917443795,
+      "fold_logloss_bits_mean": 3.8637402802902456,
+      "fold_logloss_bits_std": 0.026556429465943054,
+      "fano_lower_bits": 5.7487595210713245,
+      "xent_lower_bits": 8.45112615076293,
+      "acc_ci": [
+        0.5434739941118744,
+        0.5520711481844947
+      ],
+      "logloss_bits_ci": [
+        3.8314131219600784,
+        3.896146313011485
+      ],
+      "fano_lower_ci": [
+        5.69839917351579,
+        5.806646960879138
+      ],
+      "xent_lower_ci": [
+        8.41872011804169,
+        8.483453309093097
+      ]
+    },
+    "mlp": {
+      "S": 5095,
+      "N": 50950,
+      "chance": 0.00019627085377821394,
+      "H_bits": 12.314866431053176,
+      "top1_acc": 0.5343081452404318,
+      "logloss_bits": 4.33270199994421,
+      "logloss_nats": 3.0032001754677657,
+      "fold_acc_mean": 0.5343081452404318,
+      "fold_acc_std": 0.005927119817005426,
+      "fold_logloss_bits_mean": 4.33270199994421,
+      "fold_logloss_bits_std": 0.0826921275320017,
+      "fano_lower_bits": 5.583464234517917,
+      "xent_lower_bits": 7.9821644311089655,
+      "acc_ci": [
+        0.5298518155053975,
+        0.5386462217860648
+      ],
+      "logloss_bits_ci": [
+        4.276194262428624,
+        4.394717939172347
+      ],
+      "fano_lower_ci": [
+        5.527760266022476,
+        5.637800643293682
+      ],
+      "xent_lower_ci": [
+        7.920148491880829,
+        8.038672168624553
+      ]
+    },
+    "lda": {
+      "S": 5095,
+      "N": 50950,
+      "chance": 0.00019627085377821394,
+      "H_bits": 12.314866431053176,
+      "top1_acc": 0.5227870461236507,
+      "logloss_bits": 5.835974357006027,
+      "logloss_nats": 4.045189171378867,
+      "fold_acc_mean": 0.5227870461236506,
+      "fold_acc_std": 0.0036951083334998713,
+      "fold_logloss_bits_mean": 5.835974357006026,
+      "fold_logloss_bits_std": 0.09847694414890461,
+      "fano_lower_bits": 5.439686541641242,
+      "xent_lower_bits": 6.478892074047149,
+      "acc_ci": [
+        0.5183493621197252,
+        0.5272438665358194
+      ],
+      "logloss_bits_ci": [
+        5.751041926275538,
+        5.917832355901385
+      ],
+      "fano_lower_ci": [
+        5.384511283056434,
+        5.495214350556195
+      ],
+      "xent_lower_ci": [
+        6.397034075151791,
+        6.563824504777638
+      ]
+    }
+  },
+  "elapsed_s": 2473.8
+}

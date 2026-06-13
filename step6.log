@@ -1,0 +1,6 @@
+[11:00:58] features kept=38 dropped=['SSPF']
+[11:00:58] S=5095 speakers, N=50950 clips (10/spk), ceiling log2(S)=12.315 bits
+[11:15:43]   logreg  acc=0.5475 [0.5435,0.5521] logloss=3.864b Fano=5.749 xent=8.451 (885s)
+[11:41:59]   mlp     acc=0.5343 [0.5299,0.5386] logloss=4.333b Fano=5.583 xent=7.982 (1576s)
+[11:42:08]   lda     acc=0.5228 [0.5183,0.5272] logloss=5.836b Fano=5.440 xent=6.479 (9s)
+[11:42:08] DONE 41.2 min. strongest=logreg Fano_best=5.749 xent_best=8.451 inversion(MLP<logreg)=True

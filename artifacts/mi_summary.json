@@ -1,0 +1,46 @@
+{
+  "S": 10676,
+  "N": 53380,
+  "logS": 13.382083590141967,
+  "clips_per_speaker": 5,
+  "n_features": 39,
+  "total_usable_bits_optimistic": 11.708359271963802,
+  "n_perm_significant": 39,
+  "top5": [
+    {
+      "feature": "F0",
+      "b_star": 2,
+      "I_corrected_bits": 0.6619361186811713,
+      "NMI": 0.04946435390440936,
+      "perm_p": 0.0
+    },
+    {
+      "feature": "RMS",
+      "b_star": 2,
+      "I_corrected_bits": 0.6370636699473166,
+      "NMI": 0.047605715930261805,
+      "perm_p": 0.0
+    },
+    {
+      "feature": "CPP",
+      "b_star": 2,
+      "I_corrected_bits": 0.500163199139423,
+      "NMI": 0.037375584733895455,
+      "perm_p": 0.0
+    },
+    {
+      "feature": "GCT",
+      "b_star": 2,
+      "I_corrected_bits": 0.47205172062513334,
+      "NMI": 0.03527490449789706,
+      "perm_p": 0.0
+    },
+    {
+      "feature": "AlphaRatio",
+      "b_star": 2,
+      "I_corrected_bits": 0.4417533935657043,
+      "NMI": 0.03301080811444983,
+      "perm_p": 0.0
+    }
+  ]
+}
