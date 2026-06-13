@@ -9,7 +9,7 @@ Repo is overridable:  HF_FEATURES_REPO=<owner>/<dataset>  python fetch_features.
 import os
 from huggingface_hub import hf_hub_download
 
-REPO_ID = os.environ.get("HF_FEATURES_REPO", "Shuo-H/timit-40feature-battery")
+REPO_ID = os.environ.get("HF_FEATURES_REPO", "shuohann/timit-40feature-battery")
 FILENAME = "features_per_utt.parquet"
 
 os.makedirs("features", exist_ok=True)

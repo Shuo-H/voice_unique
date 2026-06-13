@@ -69,7 +69,7 @@ python fetch_features.py                 # -> features/features_per_utt.parquet 
 python analyze.py                        # report sections 1-5,7
 python classify.py                       # report section 6
 ```
-`fetch_features.py` pulls from the dataset repo `Shuo-H/timit-40feature-battery`
+`fetch_features.py` pulls from the dataset repo `shuohann/timit-40feature-battery`
 (override with `HF_FEATURES_REPO=<owner>/<dataset>`). Because `extract_all.py`
 no-ops when `features/features_per_utt.parquet` already exists, the downloaded
 cache also makes a full `bash`-driven run skip extraction automatically.
@@ -81,12 +81,12 @@ One-time, by the repo owner, after a full extraction run:
 hf auth login                            # paste the write token
 
 # 2. create the dataset repo + upload the parquet (creates repo if absent)
-hf upload Shuo-H/timit-40feature-battery \
+hf upload shuohann/timit-40feature-battery \
     features/features_per_utt.parquet features_per_utt.parquet \
     --repo-type=dataset
 ```
 That publishes `features_per_utt.parquet` to
-`https://huggingface.co/datasets/Shuo-H/timit-40feature-battery`, which is exactly
+`https://huggingface.co/datasets/shuohann/timit-40feature-battery`, which is exactly
 what `fetch_features.py` downloads. (The parquet is self-describing: it carries
 `utt_id, speaker, sex, split, dialect, utt` columns plus the 40 features and decode
 diagnostics, so consumers need nothing else to run the analysis.)
