@@ -1,0 +1,75 @@
+{
+  "pr_features_used": [
+    "F0",
+    "jitter",
+    "shimmer",
+    "SHR",
+    "semitone_SD_F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "spectral_skewness",
+    "spectral_kurtosis",
+    "spectral_entropy",
+    "spectral_rolloff",
+    "spectral_flux",
+    "alpha_ratio",
+    "LHR",
+    "SPI",
+    "GNE",
+    "CPP",
+    "dCPP",
+    "RMS",
+    "AMD",
+    "speech_rate",
+    "VOT"
+  ],
+  "n_pr_features": 30,
+  "pooled": {
+    "PR": 8.38936757550607,
+    "ci95": [
+      7.997192554102901,
+      8.589360655383823
+    ],
+    "n_speakers": 630
+  },
+  "within_sex": {
+    "male": {
+      "PR": 8.567316768595346,
+      "ci95": [
+        7.879692384425047,
+        9.047362926583407
+      ],
+      "n": 438
+    },
+    "female": {
+      "PR": 9.885075429892435,
+      "ci95": [
+        8.77888849798053,
+        10.159540542561246
+      ],
+      "n": 192
+    },
+    "mean_PR": 9.22619609924389
+  },
+  "parent_residual": {
+    "PR": 9.422068634979277,
+    "ci95": [
+      8.814298234094364,
+      9.824781537124077
+    ],
+    "n_speakers": 629,
+    "parents": [
+      "sex",
+      "height_cm",
+      "age_yr"
+    ]
+  }
+}

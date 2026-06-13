@@ -1,0 +1,38 @@
+{
+  "_source": "VoiceDistinctiveness_PNASNexus_v4.pdf -- PDF-sourced figures ONLY; kept OUTSIDE ./results/ to preserve the source-of-truth firewall. Never mix with computed values.",
+  "d_eff_lower_bound": {
+    "value": 25,
+    "note": "adopted working estimate, ~37.5% reduction from nominal 40; explicitly framed as a conservative LOWER BOUND on the voice's effective dimensionality",
+    "location": "'From causal to statistical independence' (p.5, lines ~571-585) and 'Reading the estimates' (p.8, lines ~916-938)"
+  },
+  "d_nominal": 40,
+  "d_eff25_equivalent_q": 4.2,
+  "TIMIT": {
+    "features_measured_of_40": 29,
+    "PR_pooled": 5.3,
+    "PR_within_sex": 10,
+    "F0_F_ratio": 39.9,
+    "F0_q_max": 5,
+    "most_features_q_max": "1-3",
+    "F0_usable_bits": 1.4,
+    "usable_bits_note": "most features carry well under 1 bit; total only a few bits, below 9.3-bit corpus ceiling",
+    "classifier_top1": {"logreg": 0.648, "MLP": 0.540, "shrinkage_LDA": 0.759},
+    "maintext_LDA_approx": 0.76,
+    "retained_utts": 5035,
+    "retained_speakers": 629,
+    "H_speaker_bits": 9.30,
+    "fano_bits": {"logreg": 5.09, "shrinkage_LDA": 6.26},
+    "xent_bits": {"logreg": 6.76, "shrinkage_LDA": 7.05},
+    "capacity_inversion": "MLP underperforms linear models (data starvation at ~8 utts/speaker)",
+    "decode_failures": 0,
+    "location": "SI Appendix 3 (p.13-14) and 'Empirical illustration' (p.8-9)"
+  },
+  "collision_d40_q10_n1e10": {"P_E": 1e-30, "S": 1e31, "P_M": 1e-40, "P_B": 5e-21,
+    "location": "Table 2 / 'A representative point' (p.6)"},
+  "collision_table2_by_q_d40_n1e10": {
+    "10": {"P_E": 1.00e-30, "S": 1.00e31, "P_M": 1.00e-40, "P_B": 5.00e-21},
+    "5":  {"P_E": 1.10e-18, "S": 9.09e18, "P_M": 1.10e-28, "P_B": 5.50e-09},
+    "3":  {"P_E": 8.23e-10, "S": 1.22e10, "P_M": 8.23e-20, "P_B": 1.00e0},
+    "2":  {"P_E": 9.09e-03, "S": 1.10e3,  "P_M": 9.09e-13, "P_B": 1.00e0}
+  }
+}

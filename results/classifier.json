@@ -1,0 +1,104 @@
+{
+  "retained_utts": 5679,
+  "retained_speakers": 630,
+  "n_features": 30,
+  "features": [
+    "F0",
+    "jitter",
+    "shimmer",
+    "SHR",
+    "semitone_SD_F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "spectral_skewness",
+    "spectral_kurtosis",
+    "spectral_entropy",
+    "spectral_rolloff",
+    "spectral_flux",
+    "alpha_ratio",
+    "LHR",
+    "SPI",
+    "GNE",
+    "CPP",
+    "dCPP",
+    "RMS",
+    "AMD",
+    "speech_rate",
+    "VOT"
+  ],
+  "chance": 0.0015873015873015873,
+  "H_speaker_bits": 9.29920801838728,
+  "classifiers": {
+    "logreg": {
+      "top1_acc": 0.5564328038716883,
+      "acc_ci95": [
+        0.5435115038663633,
+        0.5693541038770132
+      ],
+      "per_fold_acc_mean": 0.5564328038716883,
+      "per_fold_acc_std": 0.015163460347110459,
+      "per_fold_acc": [
+        0.5404929577464789,
+        0.5598591549295775,
+        0.5783450704225352,
+        0.5651408450704225,
+        0.5383259911894274
+      ],
+      "logloss_bits_mean": 2.9463985349680195,
+      "logloss_bits_std": 0.0470495831787659,
+      "fano_bits": 4.184609563450239,
+      "xent_bits": 6.35280948341926
+    },
+    "mlp": {
+      "top1_acc": 0.48018769001675243,
+      "acc_ci95": [
+        0.4671935085275569,
+        0.49318187150594794
+      ],
+      "per_fold_acc_mean": 0.48018769001675243,
+      "per_fold_acc_std": 0.009349954005437429,
+      "per_fold_acc": [
+        0.4876760563380282,
+        0.4876760563380282,
+        0.47183098591549294,
+        0.4876760563380282,
+        0.466079295154185
+      ],
+      "logloss_bits_mean": 3.401720586712402,
+      "logloss_bits_std": 0.06293053764727537,
+      "fano_bits": 3.4676894210596663,
+      "xent_bits": 5.897487431674877
+    },
+    "lda": {
+      "top1_acc": 0.6150705776509275,
+      "acc_ci95": [
+        0.6024152565948686,
+        0.6277258987069865
+      ],
+      "per_fold_acc_mean": 0.6150705776509275,
+      "per_fold_acc_std": 0.011568519803218352,
+      "per_fold_acc": [
+        0.625,
+        0.6267605633802817,
+        0.6214788732394366,
+        0.6012323943661971,
+        0.6008810572687224
+      ],
+      "logloss_bits_mean": 2.9524322512896126,
+      "logloss_bits_std": 0.06016916425733653,
+      "fano_bits": 4.7591021888902105,
+      "xent_bits": 6.346775767097666
+    }
+  },
+  "capacity_inversion": true,
+  "headline_fano_bits": 4.7591021888902105,
+  "headline_fano_model": "lda"
+}

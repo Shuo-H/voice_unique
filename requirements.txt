@@ -1,0 +1,18 @@
+# TIMIT 40-feature voice-distinctiveness battery — Python dependencies.
+# Versions below are the exact ones verified working in the `voice_unique`
+# conda env (Python 3.10.20, Windows). Pinned for reproducibility; loosen the
+# pins (==  ->  >=) only if you knowingly want newer releases.
+#
+# Install into a dedicated env, e.g.:
+#   conda create -n voice_unique python=3.10
+#   conda activate voice_unique
+#   pip install -r requirements.txt
+
+sphfile==1.0.0              # decode NIST SPHERE (NIST_1A) TIMIT .WAV files
+praat-parselmouth==0.4.7    # Praat: F0, F1-F5, B1-B5, jitter, shimmer  (imports as `parselmouth`)
+librosa==0.11.0             # spectral DSP helpers
+scikit-learn==1.7.2         # logreg / MLP / LDA classifiers, CV          (imports as `sklearn`)
+numpy==2.2.6
+scipy==1.15.3
+pandas==2.3.3
+pyarrow==24.0.0             # parquet read/write for the feature cache

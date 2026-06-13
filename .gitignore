@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# TIMIT 40-feature battery — .gitignore
+# ---------------------------------------------------------------------------
+
+# --- Python caches / build ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# --- Local tooling / editor state ---
+.claude/
+
+# --- Generated feature cache (large; regenerate with extract_all.py) ---
+features/
+*.parquet
+*.parquet.tmp
+
+# --- Smoke-test scratch workspace (run_smoke.sh, fully disposable) ---
+smoke/
+
+# --- Run logs (regenerated every run) ---
+run.log
+*.log
+
+# --- Atomic-write temp files ---
+*.tmp
+
+# ---------------------------------------------------------------------------
+# NEVER commit the TIMIT corpus — it is licensed (LDC) and lives OUTSIDE this
+# repo at ../data/TIMIT. These guards stop an accidental copy from being added.
+# ---------------------------------------------------------------------------
+data/
+TIMIT/
+*.WAV
+*.PHN
+*.WRD
+*.SPHERE
+
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---------------------------------------------------------------------------
+# NOTE: results/ (machine-readable tables) and report_TIMIT_v2.md ARE tracked
+# on purpose — they are small deliverables and the "source of truth" for every
+# number in the report. If you prefer a code-only repo, uncomment:
+# results/
+# report_TIMIT_v2.md
+# ---------------------------------------------------------------------------

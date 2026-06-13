@@ -1,0 +1,5 @@
+extract_wallclock_sec=4949.0
+n_utts=6300
+decode_failures=0
+sr_mismatch=0
+nproc=16
