@@ -1,0 +1,3 @@
+stratum,q,n_speakers,k_features,occupied_cells,collision_cells,speakers_in_collisions,observed_pairs,pred_pairs_full_indep,pred_pairs_deff,ratio_obs_over_full,ratio_obs_over_deff
+cohort:United States English,2,552,40,552,0,0,0,1.3831231626681983e-07,46.5721589319649,0.0,0.0
+cohort:United States English,3,552,40,552,0,0,0,1.2508651476892715e-14,0.40983266438731386,0.0,0.0

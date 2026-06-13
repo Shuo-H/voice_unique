@@ -1,0 +1,14 @@
+{
+  "n_draws": 8,
+  "S": 630,
+  "cv_best_acc_mean": 0.6229761904761905,
+  "cv_best_acc_std": 0.010993465287139669,
+  "cv_best_acc_min": 0.6101587301587301,
+  "cv_best_acc_max": 0.6436507936507937,
+  "cv_best_xent_mean": 6.372811106296237,
+  "cv_best_xent_std": 0.0659600229234175,
+  "cv_best_xent_min": 6.29681881439672,
+  "cv_best_xent_max": 6.506202581719933,
+  "timit_best_acc": 0.6271428571428571,
+  "timit_best_xent": 6.642531975933887
+}

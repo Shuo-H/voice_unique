@@ -1,0 +1,5 @@
+stratum,n_speakers,k_features,estimator,d_eff,ci_lo,ci_hi
+cohort:United States English,552,40,PR_pearson,11.673037108161033,11.042521177340593,11.863477685686641
+cohort:United States English,552,40,PR_spearman,11.056002265139876,10.455666539681124,11.320572132496531
+cohort:United States English,552,40,cell_occupancy_q2,9.108524456778168,8.387909460523359,8.507794640198696
+cohort:United States English,552,40,cell_occupancy_q3,5.7468390909146425,5.294962763447251,5.362805670932773

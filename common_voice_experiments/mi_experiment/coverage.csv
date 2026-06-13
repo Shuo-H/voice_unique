@@ -1,0 +1,43 @@
+feature,group,coverage,status
+F0,measured,0.9999,measured
+F1,measured,1.0,measured
+F2,measured,1.0,measured
+F3,measured,1.0,measured
+F4,measured,1.0,measured
+F5,measured,1.0,measured
+B1,measured,1.0,measured
+B2,measured,1.0,measured
+B3,measured,1.0,measured
+B4,measured,1.0,measured
+B5,measured,1.0,measured
+jitter,measured,1.0,measured
+shimmer,measured,1.0,measured
+HNR,measured,1.0,measured
+SpectralSkewness,measured,1.0,measured
+SpectralKurtosis,measured,1.0,measured
+SpectralEntropy,measured,1.0,measured
+SpectralRolloff,measured,1.0,measured
+SpectralFlux,measured,1.0,measured
+AlphaRatio,measured,1.0,measured
+LHR,measured,1.0,measured
+RMS,measured,1.0,measured
+AMD,measured,1.0,measured
+CPP,measured,1.0,measured
+dCPP,measured,1.0,measured
+VTLE,measured,1.0,measured
+SpeechRate,measured,1.0,measured
+SemitoneSDF0,measured,0.9999,measured
+GCT,glottal/inverse-filtering,0.0,NOT MEASURED
+CQ,glottal/inverse-filtering,0.0,NOT MEASURED
+NAQ,glottal/inverse-filtering,0.0,NOT MEASURED
+MFDR,glottal/inverse-filtering,0.0,NOT MEASURED
+SQ,glottal/inverse-filtering,0.0,NOT MEASURED
+SHR,glottal/inverse-filtering,0.0,NOT MEASURED
+IHI,glottal/inverse-filtering,0.0,NOT MEASURED
+VFI,glottal/inverse-filtering,0.0,NOT MEASURED
+SPI,glottal/inverse-filtering,0.0,NOT MEASURED
+GNE,glottal/inverse-filtering,0.0,NOT MEASURED
+Nasality,glottal/inverse-filtering,0.0,NOT MEASURED
+SSPF,glottal/inverse-filtering,0.0,NOT MEASURED
+VOT,glottal/inverse-filtering,0.0,NOT MEASURED
+BGD,glottal/inverse-filtering,0.0,NOT MEASURED

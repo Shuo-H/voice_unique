@@ -1,0 +1,24 @@
+[timit] 6300 wavs, 630 speakers (unique speaker codes: 630)
+[timit] utts/speaker distribution: {10: 630}
+[timit] 500/6300 utts  (7s, 71.7 utt/s)
+[timit] 1000/6300 utts  (12s, 85.0 utt/s)
+[timit] 1500/6300 utts  (17s, 88.3 utt/s)
+[timit] 2000/6300 utts  (23s, 88.8 utt/s)
+[timit] 2500/6300 utts  (28s, 89.7 utt/s)
+[timit] 3000/6300 utts  (34s, 88.7 utt/s)
+[timit] 3500/6300 utts  (39s, 88.9 utt/s)
+[timit] 4000/6300 utts  (45s, 89.1 utt/s)
+[timit] 4500/6300 utts  (51s, 88.7 utt/s)
+[timit] 5000/6300 utts  (56s, 88.6 utt/s)
+[timit] 5500/6300 utts  (62s, 88.0 utt/s)
+[timit] 6000/6300 utts  (68s, 88.0 utt/s)
+[timit] wrote /Users/ziyue/Projects/Fable5_Test/jointbits_experiment/timit_features.parquet  shape=(176400, 7)  in 72s
+[timit] per-feature coverage min/median/max: 1.0000/1.0000/1.0000
+[timit] lowest-coverage features:
+feature
+AMD                 1.0
+dCPP                1.0
+VTLE                1.0
+SpeechRate          1.0
+SpectralSkewness    1.0
+SpectralRolloff     1.0

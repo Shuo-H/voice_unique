@@ -8,3 +8,7 @@ __pycache__/
 *.sph
 timit*/
 *.tgz
+
+# Common Voice raw-audio cache (regenerated on first run, ~6.4 GB) and any raw MP3s
+cv_cache/
+*.mp3

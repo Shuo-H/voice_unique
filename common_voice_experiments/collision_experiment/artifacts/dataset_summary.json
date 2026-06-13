@@ -1,0 +1,47 @@
+{
+  "seed": 1234,
+  "n_shards": 4,
+  "min_clips": 5,
+  "cap": 30,
+  "n_speakers": 1755,
+  "n_clips": 18861,
+  "clips_per_speaker_kept": {
+    "count": 1755.0,
+    "mean": 10.747008547008546,
+    "std": 7.475756018440363,
+    "min": 5.0,
+    "25%": 6.0,
+    "50%": 8.0,
+    "75%": 12.0,
+    "max": 30.0
+  },
+  "sex_counts": {
+    "male_masculine": 1009,
+    "NaN": 389,
+    "female_feminine": 357
+  },
+  "accent_counts": {
+    "NaN": 631,
+    "United States English": 557,
+    "England English": 191,
+    "India and South Asia (India, Pakistan, Sri Lanka)": 111,
+    "Canadian English": 79,
+    "Australian English": 54,
+    "Southern African (South Africa, Zimbabwe, Namibia)": 25,
+    "New Zealand English": 19,
+    "Scottish English": 13,
+    "Irish English": 12
+  },
+  "age_counts": {
+    "twenties": 584,
+    "NaN": 354,
+    "thirties": 306,
+    "fourties": 168,
+    "teens": 144,
+    "fifties": 104,
+    "sixties": 68,
+    "seventies": 23,
+    "eighties": 4
+  },
+  "elapsed_s": 566.0
+}

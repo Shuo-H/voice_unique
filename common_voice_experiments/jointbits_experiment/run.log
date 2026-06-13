@@ -1,0 +1,55 @@
+[18:58:00] === Common Voice: prepare ===
+[18:58:00] CV: features kept=28 dropped=[] | utts kept=19187 dropped=1 | S_full=1599 N=15990 ceiling=log2(S)=10.643 bits
+[18:58:00]   Step1 classifiers on CV full (S=1599, N=15990)
+[18:58:57]     logreg  acc=0.5515 logloss=3.727b/2.583nats Fano=4.877 xent=6.916 (57s)
+[19:01:18]     mlp     acc=0.5103 logloss=4.550b/3.154nats Fano=4.432 xent=6.093 (141s)
+[19:01:20]     lda     acc=0.5181 logloss=5.114b/3.545nats Fano=4.516 xent=5.528 (2s)
+[19:01:20]   Sensitivity: keep-all-features + listwise-delete utts (TIMIT-style)
+[19:01:22]     drop-features: S=1599 acc(LDA)=0.5181 | listwise-all: S=1599 acc(LDA)=0.5181
+[19:01:22]   Calibration (strongest=logreg) ECE=0.2526
+[19:01:22]   Step3 greedy forward selection (LDA), CV full ...
+  +F0               I_lower=0.833 bits (1/28)
+  +AlphaRatio       I_lower=1.454 bits (2/28)
+  +RMS              I_lower=2.039 bits (3/28)
+  +SpectralRolloff  I_lower=2.544 bits (4/28)
+  +dCPP             I_lower=3.044 bits (5/28)
+  +SpectralFlux     I_lower=3.415 bits (6/28)
+  +B4               I_lower=3.708 bits (7/28)
+  +F4               I_lower=3.964 bits (8/28)
+  +HNR              I_lower=4.195 bits (9/28)
+  +B1               I_lower=4.404 bits (10/28)
+  +LHR              I_lower=4.596 bits (11/28)
+  +B3               I_lower=4.763 bits (12/28)
+  +AMD              I_lower=4.909 bits (13/28)
+  +F3               I_lower=5.044 bits (14/28)
+  +F5               I_lower=5.171 bits (15/28)
+  +B2               I_lower=5.279 bits (16/28)
+  +B5               I_lower=5.361 bits (17/28)
+  +F2               I_lower=5.436 bits (18/28)
+  +SpectralEntropy  I_lower=5.502 bits (19/28)
+  +SemitoneSDF0     I_lower=5.544 bits (20/28)
+  +shimmer          I_lower=5.579 bits (21/28)
+  +jitter           I_lower=5.633 bits (22/28)
+  +F1               I_lower=5.661 bits (23/28)
+  +SpeechRate       I_lower=5.676 bits (24/28)
+  +CPP              I_lower=5.659 bits (25/28)
+  +VTLE             I_lower=5.624 bits (26/28)
+  +SpectralSkewness I_lower=5.535 bits (27/28)
+  +SpectralKurtosis I_lower=5.528 bits (28/28)
+[19:13:36]     greedy done (734s) max I_lower=5.676 #feat@95%=18
+[19:13:36]   Step4 binned greedy (censored sanity check), CV full ...
+[19:13:39]     binned done (3s) k*=2 (censor cells>3198)
+[19:13:39] === TIMIT: prepare ===
+[19:13:39] TIMIT: features kept=28 dropped=[] | S=630 N=6300 ceiling=9.299 bits
+[19:13:39]   Step1 classifiers on TIMIT (S=630, N=6300)
+[19:13:43]     logreg  acc=0.6106 logloss=2.736b/1.896nats Fano=4.715 xent=6.564 (4s)
+[19:13:58]     mlp     acc=0.5349 logloss=3.046b/2.112nats Fano=3.979 xent=6.253 (15s)
+[19:13:58]     lda     acc=0.6271 logloss=2.657b/1.841nats Fano=4.880 xent=6.643 (1s)
+[19:13:58]   common feature set (CV ∩ TIMIT): 28 features
+[19:18:40]   TIMIT(common) strongest=lda acc(A/B/C)=0.611/0.535/0.627 #feat@95%=17
+[19:18:40] === CV matched: random subsample to S=630, common features ===
+[19:23:20]   CV(matched) strongest=logreg acc(A/B/C)=0.626/0.567/0.608 #feat@95%=17
+[19:23:20] === Step7: US-English cohort (CV) + matched-S control ===
+[19:23:20]   US-English speakers available (pre-balance): 521
+[19:23:53]   US cohort S=521 strongest=logreg xent=6.220 | matched random control xent=6.248
+[19:23:53] === DONE in 25.9 min. results.json written. ===
