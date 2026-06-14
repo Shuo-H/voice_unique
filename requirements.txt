@@ -1,10 +1,32 @@
-# Validated on Python 3.10.20 in conda env `voice_unique`.
-# Pinned to the exact versions used for the v3 full run.
-sphfile==1.0.0
-praat-parselmouth==0.4.7
-librosa==0.11.0
-scikit-learn==1.7.2
+# Voice-individuality study — Python dependencies (pip install -r requirements.txt)
+# Tested with Python 3.10. Versions pinned to the environment that produced the reports.
+#
+# Covers all four scripts:
+#   scripts/vu_extract.py     (STEP 1 feature extraction: reads NIST SPHERE TIMIT .WAV)
+#   scripts/vu_analyze.py     (F-ratios, d_eff, collision metrics)
+#   scripts/vu_quant.py       (quantization + Miller-Madow MI)
+#   scripts/vu_jointbits.py   (Fano lower bound via held-out speaker ID)
+
 numpy==2.2.6
 scipy==1.15.3
 pandas==2.3.3
-pyarrow==24.0.0
+pyarrow==24.0.0          # parquet read/write for features.parquet
+librosa==0.11.0          # STFT, LPC, resample, spectral features
+soundfile==0.14.0        # audio decode fallback (non-SPHERE)
+praat-parselmouth==0.4.7 # Praat: F0, formants, jitter/shimmer, HNR
+sphfile==1.0.3           # decode NIST SPHERE-headered TIMIT .WAV
+scikit-learn==1.7.2      # LogisticRegression, MLP, LDA, spearman via scipy
+matplotlib==3.10.8       # figures
+
+
+
+# Validated on Python 3.10.20 in conda env `voice_unique`.
+# Pinned to the exact versions used for the v3 full run.
+# sphfile==1.0.0
+# praat-parselmouth==0.4.7
+# librosa==0.11.0
+# scikit-learn==1.7.2
+# numpy==2.2.6
+# scipy==1.15.3
+# pandas==2.3.3
+# pyarrow==24.0.0
